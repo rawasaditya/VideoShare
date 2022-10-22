@@ -8,8 +8,8 @@ router.delete("/:id",authenticate, del);
 router.get("/find/:id",authenticate, get);
 router.put("/sub/:id",authenticate, subscribe);
 router.put("/unsub/:id",authenticate, unsubscribe);
-router.put("/like/:videid",authenticate, like);
-router.put("/dislike/:videid",authenticate, dislike);
+router.put("/like/:videoId",authenticate, like);
+router.put("/dislike/:videoId",authenticate, dislike);
 
 
 
