@@ -1,9 +1,9 @@
-const {test} = require("../controllers/usersController.js");
+const {update} = require("../controllers/usersController.js");
 
 const express = require("express");
 
 const router = express.Router();
 
-router.get("/test", test);
+router.get("/test", update);
 
 module.exports = router;

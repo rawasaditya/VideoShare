@@ -1,9 +1,9 @@
-const { test } = require("../controllers/usersController.js");
-
+const { addVideo } = require("../controllers/videosController");
+const {authenticate} = require("../controllers/authenticationController")
 const express = require("express");
 
 const router = express.Router();
 
-router.get("/test", test);
+router.post("/",authenticate, addVideo);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
     },
     subscribers: {
-      type: [String],
+      type: Number,
       default: 0,
     },
     subscribedUsers: {
@@ -43,21 +43,16 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.pre('save', function( next ) {
   var user = this;
-  
-  if(user.isModified('password')){    
-      // console.log('password changed')
-      bcrypt.genSalt(10, function(err, salt){
-          if(err) return next(err);
-  
-          bcrypt.hash(user.password, salt, function(err, hash){
-              if(err) return next(err);
-              user.password = hash 
-              next()
-          })
-      })
-  } else {
-      next()
-  }
+
+  bcrypt.genSalt(10, function(err, salt){
+    if(err) return next(err);
+
+    bcrypt.hash(user.password, salt, function(err, hash){
+        if(err) return next(err);
+        user.password = hash 
+        next()
+    })
+})
 });
 UserSchema.methods.comparePassword = function (password, cb) {
   bcrypt.compare(password, this.password, function (err, isMatch) {
@@ -65,6 +60,11 @@ UserSchema.methods.comparePassword = function (password, cb) {
     cb(null, isMatch);
   });
 };
+
+UserSchema.methods.generateToken = function(userid){
+  const token = jwt.sign({id:userid},process.env.JWT)
+  return token;
+}
 
 const Users = mongoose.models.Users || mongoose.model("Users", UserSchema);
 module.exports = Users;
