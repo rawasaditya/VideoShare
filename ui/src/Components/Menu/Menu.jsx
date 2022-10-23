@@ -67,10 +67,13 @@ const Menu = ({ setTheme, theme }) => {
           <small style={{ color: "#696969", display: "block" }}>
             Sign in to like ,comment and subscribe.
           </small>
-          <Button>
+          <Link to="/signin" style={{ textDecoration: "none", color: "inherit" }}>
+          <Button >
             <User size={15} />
             Sign in
           </Button>
+          </Link>
+     
         </Login>
         <Hr />
         <Item>

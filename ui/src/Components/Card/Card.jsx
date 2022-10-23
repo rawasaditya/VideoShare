@@ -2,7 +2,7 @@ import {ChannelName, ChannelImage, Container, Details, Image, Info, Texts, Title
 import {Link} from 'react-router-dom'
 const Card = ({type}) => {
   return (
-    <Link to="video/test" style={{textDecoration:"none"}}>
+    <Link to="/video/test" style={{textDecoration:"none"}}>
         <Container type={type}>
         <Image type={type} src="https://i.ytimg.com/vi/XxXyfkrP298/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCpl3BqExA8ZhTy3shFJ2pKq3QZTQ" />
         <Details type={type}>

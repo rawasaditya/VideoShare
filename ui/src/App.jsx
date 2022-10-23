@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from "./utils/Theme";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Components/Pages/Home/Home";
 import Video from "./Components/Pages/Video/Video";
+import Signin from "./Components/Pages/Signin/Signin";
 
 function App() {
   const [theme, setTheme] = useState(true);
@@ -20,6 +21,7 @@ function App() {
           <Wrapper>
             <Routes path="/">
               <Route index element={<Home />} />
+              <Route path="signin" element={<Signin />} />
               <Route path="video">
                 <Route path=":id" element={<Video />}></Route>
               </Route>

@@ -41,7 +41,7 @@ const Title = styled.h1`
 const ChannelName = styled.h2`
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
-  margin: 9px 0px;
+  margin: 0.3rem 0px;
 `;
 
 const Info = styled.div`

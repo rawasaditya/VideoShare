@@ -6,9 +6,9 @@ export const darkTheme = {
     soft:"#373737"
   }
   export const lightTheme = {
-    bg:"#f9f9f9",
+    bg:"#eee",
     bgLighter:"white",
     text:"black",
     textSoft:"#606060",
-    soft:"#f5f5f5"
+    soft:"#dfdfdf"
   }
