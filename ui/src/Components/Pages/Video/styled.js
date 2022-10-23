@@ -22,9 +22,9 @@ const Title = styled.h1`
 `;
 
 const Details = styled.div`
+
   display: flex;
   align-items: center;
-  flex-direction: column;
   justify-content: space-between;
 `;
 

@@ -7,7 +7,9 @@ const Container = styled.div`
 
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  padding: 2rem 3rem;
+`;
 const Main = styled.div`
   flex: 7;
 `;

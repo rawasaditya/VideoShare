@@ -31,6 +31,10 @@ const Item = styled.div`
   gap: 1rem;
   padding: 0.6rem 0;
   cursor: pointer;
+
+  &:hover{
+    background-color:  ${({ theme }) => theme.textSoft};
+  }
 `;
 
 const Hr = styled.hr`

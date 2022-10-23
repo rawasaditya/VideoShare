@@ -21,6 +21,7 @@ import { Hr } from "../../Menu/styled";
 import { ThumbsDown, ThumbsUp } from "react-feather";
 import CommentInput from "../../CommentInput/CommentInput";
 import Comments from "../../Comments/Comments";
+import Card from '../../Card/Card'
 const Video = () => {
   return (
     <Container>
@@ -41,7 +42,7 @@ const Video = () => {
           <Info>7,948,154 view . Jan 22, 2022</Info>
           <Buttons>
             <Button>
-              {" "}
+      
               <ThumbsUp size={20} /> 2.1K
             </Button>
             <Button>
@@ -79,7 +80,13 @@ const Video = () => {
         <Comments />
 
       </Content>
-      <Recommendation>Rec</Recommendation>
+      <Recommendation>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+      </Recommendation>
     </Container>
   );
 };
