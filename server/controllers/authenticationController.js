@@ -52,9 +52,7 @@ const signin = async (req, res, next) => {
   const token = user.generateToken(user._id);
   var { password, ...others } = user._doc;
   res
-    .cookie("access_token", token, {
-      httpOnly: true,
-    })
+    .cookie("access_token", token)
     .status(200)
     .json(others);
 };

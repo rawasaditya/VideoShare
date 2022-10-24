@@ -11,6 +11,8 @@ import Signin from "./Components/Pages/Signin/Signin";
 import axios from 'axios'
 function App() {
   axios.defaults.baseURL = `http://localhost:8800/api/v1/`
+  axios.defaults.withCredentials = true;
+
 
   const [theme, setTheme] = useState(true);
   return (

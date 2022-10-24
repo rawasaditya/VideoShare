@@ -13,7 +13,10 @@ const app = express();
 dotenv.config();
 app.use(express.json())
 app.use(cookieparser());
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true
+}));
 
 // Routes registration
 app.use("/api/v1/auth",authRoutes);

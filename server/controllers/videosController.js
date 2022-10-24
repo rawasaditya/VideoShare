@@ -145,7 +145,6 @@ const subscribed = async (req, res, next) => {
 const getByTag = async (req, res, next) => {
   try{
     const tags = req.query.tags.split(",");
-    console.log(tags)
     const videos = await Video.find({tags:{$in:tags}}).limit(20);
     res.status(200).json(videos)
   }catch(err){
