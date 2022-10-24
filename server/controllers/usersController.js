@@ -42,6 +42,7 @@ const del = async (req, res, next) => {
 
 const get = async (req, res, next) => {
   try {
+    console.log("-->")
     const getUser = await User.findById(req.params.id);
     res.status(200).json(getUser);
   } catch (err) {

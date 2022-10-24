@@ -6,13 +6,14 @@ const videoRoutes = require("./routes/videos.js")
 const commentsRoutes = require("./routes/comments.js")
 const authRoutes = require("./routes/authentication.js")
 const cookieparser = require("cookie-parser");
-
+const cors = require("cors");
 
 // Middelware
 const app = express();
 dotenv.config();
 app.use(express.json())
 app.use(cookieparser());
+app.use(cors());
 
 // Routes registration
 app.use("/api/v1/auth",authRoutes);

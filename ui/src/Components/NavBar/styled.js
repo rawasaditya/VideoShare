@@ -24,7 +24,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 0.5rem;
-border: 1px solid ${({theme})=>theme.bg.soft};
+border: 1px solid ${({theme})=>theme.bg};
 border-radius: 0.2rem;
 `;
 const Input = styled.input`
@@ -33,5 +33,12 @@ background-color: transparent;
 width: 100%;
 outline: none;
 `;
+const UserContainer = styled.div`
+display: flex;
+align-items: center;
+gap: 0.8rem;
+font-weight: 500;
+border: 1px solid ${({theme})=>theme.text};
+`
 
-export { Container, Wrapper, SearchWrapper, Input };
+export { Container, Wrapper, SearchWrapper, Input, UserContainer };

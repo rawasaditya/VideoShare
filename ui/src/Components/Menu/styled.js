@@ -57,4 +57,6 @@ const Button = styled.button`
   justify-content: center;
 `;
 
-export { Container, Wrapper, Logo, Img, Item, Hr, Login, Button };
+const User =styled.div``;
+
+export { Container, Wrapper, Logo, Img, Item, Hr, Login, Button, User };
