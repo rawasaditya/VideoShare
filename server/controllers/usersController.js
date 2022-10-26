@@ -51,7 +51,6 @@ const get = async (req, res, next) => {
 
 const subscribe = async (req, res, next) => {
   try {
-    console.log(req.user)
     const user = await User.findById(req.user.id);
     const channel = await User.findById(req.params.id);
     if(user && channel){

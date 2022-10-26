@@ -95,6 +95,12 @@ const ChannelDescription = styled.div`
 font-size: 0.9rem;
 `;
 
+const VideoFrame = styled.video`
+max-width: 720px;
+width: 100%;
+object-fit: cover;
+`
+
 export {
   Container,
   Content,
@@ -113,4 +119,5 @@ export {
   ChannelName,
   ChannelCounter,
   ChannelDescription,
+  VideoFrame
 };

@@ -10,7 +10,6 @@ export const useSlice = createSlice({
   initialState,
   reducers: {
     loginStart: (state) => {
-      console.log(state.loading)
       state.loading = true;
     },
     loginSuccess: (state, action) => {
@@ -24,10 +23,17 @@ export const useSlice = createSlice({
     logout: (state) => {
       state = initialState;
     },
+    subscription:(state,action) =>{
+      if(state.currentUser.subscribedUsers.includes(action.payload)){
+          state.currentUser.subscribedUsers.splice(state.currentUser.subscribedUsers.findIndex(userId=>userId === action.payload),1)
+      }else{
+        state.currentUser.subscribedUsers.push(action.payload)
+      }
+    }
   },
 });
 
-export const { loginStart, loginFailure, loginSuccess, logout } =
+export const { loginStart, loginFailure, loginSuccess, logout, subscription } =
   useSlice.actions;
 
 export default useSlice.reducer;

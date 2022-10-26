@@ -1,11 +1,32 @@
 import {Avatar, Container, Input, NewComment} from './styled'
+import { useState } from 'react'
+import {useSelector} from 'react-redux'
+import axios from 'axios'
+const CommentInput = ({videoId, setcomments}) => {
+  const user = useSelector(state=>state.user.currentUser)
+  const [comment, setcomment] = useState("");
 
-const CommentInput = () => {
+const addComment = async (comm) =>{
+  const comment = await axios.post("comments",{
+    "videoid":videoId,
+    "comments":comm
+  })
+
+  setcomments(prev=>[comment.data,...prev])
+  setcomment("")
+
+}
+
+  const handelComment = (e) => {
+    if(e.which === 13){
+      addComment(e.target.value)
+    }
+  }
   return (
     <Container>
       <NewComment>
-        <Avatar src="https://yt3.ggpht.com/yti/AJo0G0lqFARvplQAVB-Yt8if4f7HLRrjBSvGCjau8yf9=s88-c-k-c0x00ffffff-no-rj-mo" />
-        <Input placeholder="Add a comment..." />
+        <Avatar src={user?.profilePicture} />
+        <Input placeholder="Add a comment..." value={comment} onKeyDown={handelComment} onChange={e=>setcomment(e.target.value)}/>
       </NewComment>
     </Container>
   )

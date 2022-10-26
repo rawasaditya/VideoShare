@@ -16,76 +16,122 @@ import {
   ChannelName,
   ChannelCounter,
   ChannelDescription,
+  VideoFrame
 } from "./styled";
 import { Hr } from "../../Menu/styled";
 import { ThumbsDown, ThumbsUp } from "react-feather";
 import CommentInput from "../../CommentInput/CommentInput";
 import Comments from "../../Comments/Comments";
-import Card from '../../Card/Card'
+import Card from "../../Card/Card";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { dislike, fetchSuccess, like } from "../../../redux/videoSlice";
+import moment from "moment";
+import { subscription } from "../../../redux/useSlice";
+import CommentsContainer from "../../CommentsContainer/CommentsContainer";
 const Video = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
+  const dispatch = useDispatch();
+  const path = useLocation().pathname.split("/")[2];
+  const [video, setVideo] = useState({});
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`video/find/${path}`);
+        const channelRes = await axios.get(
+          `users/find/${videoRes.data.userId}`
+        );
+        dispatch(fetchSuccess(videoRes.data));
+        setChannel(channelRes.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handelLike = async () => {
+    await axios.put(`users/like/${currentVideo?._id}`);
+    dispatch(like(currentUser?._id));
+  };
+  const handelDisLike = async () => {
+    await axios.put(`users/dislike/${currentVideo?._id}`);
+    dispatch(dislike(currentUser?._id));
+  };
+
+  const handelSubscription = async () => {
+    await axios.put(`http://localhost:8800/api/v1/users/sub/${channel._id}`);
+    dispatch(subscription(channel._id));
+  };
+
+  const handelunSubscription = async () => {
+    await axios.put(`http://localhost:8800/api/v1/users/unsub/${channel._id}`);
+    dispatch(subscription(channel._id));
+  };
+
   return (
     <Container>
       <Content>
         <VideWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/k3Vfj-e1Ma4"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+          <VideoFrame src={currentVideo?.video} />
         </VideWrapper>
-        <Title>React Node.js Booking App</Title>
+        <Title>{currentVideo?.title}</Title>
         <Details>
-          <Info>7,948,154 view . Jan 22, 2022</Info>
+          <Info>
+            {currentVideo?.views} view .{" "}
+            {moment(currentVideo?.createdAt).format("MMM DD, YYYY")}
+          </Info>
           <Buttons>
-            <Button>
-      
-              <ThumbsUp size={20} /> 2.1K
+            <Button onClick={handelLike}>
+              {currentVideo?.likes.includes(currentUser?._id) ? (
+                <ThumbsUp size={20} fill="#fff" />
+              ) : (
+                <ThumbsUp size={20} />
+              )}
+              {currentVideo?.likes?.length}
             </Button>
-            <Button>
-              <ThumbsDown size={20} /> Dislike
+            <Button onClick={handelDisLike}>
+              {currentVideo?.dislikes.includes(currentUser?._id) ? (
+                <ThumbsDown size={20} fill="#fff" />
+              ) : (
+                <ThumbsDown size={20} />
+              )}
+              Dislike
             </Button>
           </Buttons>
         </Details>
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src="https://yt3.ggpht.com/yti/AJo0G0lqFARvplQAVB-Yt8if4f7HLRrjBSvGCjau8yf9=s88-c-k-c0x00ffffff-no-rj-mo" />
+            <Image src={channel.profilePicture} />
             <ChannelDetails>
-              <ChannelName>Aditya Rawas</ChannelName>
-              <ChannelCounter>200K subscribers</ChannelCounter>
+              <ChannelName>{`${channel.firstName} ${channel.lastName}`}</ChannelName>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
               <ChannelDescription>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae
-                cum sapiente odio tenetur, labore natus amet magni nulla ipsam
-                minus quod, maxime inventore asperiores mollitia dolorem, sed
-                aliquid eum? Similique.
+                {currentVideo?.description}
               </ChannelDescription>
             </ChannelDetails>
           </ChannelInfo>
-          <Subscribe>Subscribe</Subscribe>
+          {currentUser?.subscribedUsers?.includes(channel?._id) ? (
+            <Subscribe onClick={handelunSubscription}>UnSubscribed</Subscribe>
+            ) : (
+              <Subscribe onClick={handelSubscription}>Subscribed</Subscribe>
+          )}
         </Channel>
         <Hr />
-        <CommentInput />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-        <Comments />
-
+            <CommentsContainer videoId={currentVideo?._id}/>
       </Content>
       <Recommendation>
+        {/* <Card type="sm"/>
         <Card type="sm"/>
         <Card type="sm"/>
         <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
+        <Card type="sm"/> */}
       </Recommendation>
     </Container>
   );

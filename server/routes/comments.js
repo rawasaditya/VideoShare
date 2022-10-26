@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/", authenticate,addComment);
-router.get("/:videoId", authenticate,getComment);
+router.get("/:videoId",getComment);
 router.delete("/:id", authenticate,deleteComment);
 
 
