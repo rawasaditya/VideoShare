@@ -4,25 +4,56 @@ const {
   deleteVideo,
   getVideo,
   addview,
-trends,
-random,
-subscribed,
-getByTag,
-search
+  trends,
+  random,
+  subscribed,
+  getByTag,
+  search,
 } = require("../controllers/videosController");
 const { authenticate } = require("../controllers/authenticationController");
 const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    let dirpath = path
+      .resolve(__dirname, "../public/video")
+      .replaceAll("\\", "/");
+    if (file.fieldname == "thumbnail") {
+      dirpath = path
+        .resolve(__dirname, "../public/thumbnail")
+        .replaceAll("\\", "/");
+    }
+
+    cb(null, dirpath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "_" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 const router = express.Router();
-router.post("/", authenticate, addVideo);
+router.post(
+  "/",
+  authenticate,
+  upload.fields([
+    { name: "video", maxCount: 1 },
+    { name: "thumbnail", maxCount: 8 },
+  ]),
+  addVideo
+);
 router.put("/:id", authenticate, updateVideo);
 router.delete("/:id", authenticate, deleteVideo);
 router.get("/find/:id", getVideo);
-router.put("/view/:id",authenticate, addview);
+router.put("/view/:id", authenticate, addview);
 router.get("/trends", trends);
 router.get("/random", random);
-router.get("/subscribed",authenticate, subscribed);
-router.get("/tags",getByTag)
-router.get("/search",search)
+router.get("/subscribed", authenticate, subscribed);
+router.get("/tags", getByTag);
+router.get("/search", search);
 
 module.exports = router;

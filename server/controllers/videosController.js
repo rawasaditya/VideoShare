@@ -2,42 +2,41 @@ const createError = require("../error");
 const Users = require("../models/User");
 const Video = require("../models/Video");
 const { checkrequired } = require("../utils/validation.js");
+const fs = require("fs");
+const path = require("path");
+
+
 const addVideo = async (req, res, next) => {
+
   try {
-    const {
-      title,
-      description,
-      thumbnail,
-      video,
-      views,
-      tags,
-      likes,
-      dislikes,
-    } = req.body;
-    const userId = req.user._id;
-    checkrequired(
-      {
-        userId,
+    const { title, description, tags } = req.body;
+    let splitags = tags.split(",")
+      const userId = req.user._id;
+      console.log(req.files)
+      const video = req.files.video[0].filename;
+      const thumbnail = req.files.thumbnail[0].filename;
+
+      checkrequired(
+        {
+          userId,
+          title,
+          description,
+          thumbnail,
+          video,
+        },
+        next
+      );
+      const newVideo = new Video({
+        userId: userId,
         title,
         description,
         thumbnail,
         video,
-      },
-      next
-    );
-    const newVideo = new Video({
-      userId: userId,
-      title,
-      description,
-      thumbnail,
-      video,
-      views,
-      tags,
-      likes,
-      dislikes,
-    });
-    const user = await newVideo.save();
-    res.status(200).json(user);
+        tags: splitags
+      });
+      const vid = await newVideo.save();
+      res.status(200).json(vid);
+
   } catch (err) {
     next(createError(500, err));
   }
@@ -45,6 +44,7 @@ const addVideo = async (req, res, next) => {
 
 const updateVideo = async (req, res, next) => {
   try {
+    
     const { title, description, thumbnail, video } = req.body;
     const userId = req.user._id;
     checkrequired(
@@ -105,63 +105,67 @@ const getVideo = async (req, res, next) => {
 };
 
 const addview = async (req, res, next) => {
-  try{
-    await Video.findByIdAndUpdate(req.params.id,{
-      $inc:{views:1}
-    })
-    res.status(200).json("Views has been increased")
-  }catch(err){
-    next(createError(500,err))
+  try {
+    await Video.findByIdAndUpdate(req.params.id, {
+      $inc: { views: 1 },
+    });
+    res.status(200).json("Views has been increased");
+  } catch (err) {
+    next(createError(500, err));
   }
 };
 const trends = async (req, res, next) => {
-  try{
-    const videos = await Video.find().sort({views:-1})
-    res.status(200).json(videos)
-  }catch(err){
-    next(createError(500,err))
+  try {
+    const videos = await Video.find().sort({ views: -1 });
+    res.status(200).json(videos);
+  } catch (err) {
+    next(createError(500, err));
   }
 };
 const random = async (req, res, next) => {
-  try{
-    const videos = await Video.aggregate([{$sample:{size:40}}])
-    res.status(200).json(videos)
-  }catch(err){
-    next(createError(500,err))
+  try {
+    const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
+    res.status(200).json(videos);
+  } catch (err) {
+    next(createError(500, err));
   }
 };
 const subscribed = async (req, res, next) => {
-  try{
-    const user = await Users.findById(req.user.id)
+  try {
+    const user = await Users.findById(req.user.id);
     const subscribedChannels = user.subscribedUsers;
-    const list = await Promise.all(subscribedChannels.map(async channelid=>Video.find({userId:channelid})));
-    res.status(200).json(list.flat().sort((a,b)=> b.createdAt - a.createdAt));
-  }catch(err){
-    next(createError(500,err))
+    const list = await Promise.all(
+      subscribedChannels.map(async (channelid) =>
+        Video.find({ userId: channelid })
+      )
+    );
+    res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
+  } catch (err) {
+    next(createError(500, err));
   }
 };
 
-
 const getByTag = async (req, res, next) => {
-  try{
+  try {
     const tags = req.query.tags.split(",");
-    const videos = await Video.find({tags:{$in:tags}}).limit(20);
-    res.status(200).json(videos)
-  }catch(err){
-    next(createError(500,err))
+    const videos = await Video.find({ tags: { $in: tags } }).limit(20);
+    res.status(200).json(videos);
+  } catch (err) {
+    next(createError(500, err));
   }
 };
 
 const search = async (req, res, next) => {
-  try{
+  try {
     const query = req.query.q;
-    const videos = await Video.find({title:{$regex:query, $options:"i"}}).limit(40);
-    res.status(200).json(videos)
-  }catch(err){
-    next(createError(500,err))
+    const videos = await Video.find({
+      title: { $regex: query, $options: "i" },
+    }).limit(40);
+    res.status(200).json(videos);
+  } catch (err) {
+    next(createError(500, err));
   }
 };
-
 
 module.exports = {
   addVideo,
@@ -173,5 +177,5 @@ module.exports = {
   random,
   subscribed,
   getByTag,
-  search
+  search,
 };

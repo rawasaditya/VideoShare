@@ -13,6 +13,9 @@ const Image = styled.img`
   height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
   background-color: #999;
   flex: 1;
+  object-fit: cover;
+  object-position: top;
+
 `;
 
 const Details = styled.div`

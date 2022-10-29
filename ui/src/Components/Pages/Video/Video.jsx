@@ -1,7 +1,6 @@
 import {
   Container,
   Content,
-  Recommendation,
   VideWrapper,
   Title,
   Details,
@@ -31,6 +30,7 @@ import { dislike, fetchSuccess, like } from "../../../redux/videoSlice";
 import moment from "moment";
 import { subscription } from "../../../redux/useSlice";
 import CommentsContainer from "../../CommentsContainer/CommentsContainer";
+import Recommendation from "../../Recommendation/Recommendation";
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
@@ -53,7 +53,7 @@ const Video = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [path]);
 
   const handelLike = async () => {
     await axios.put(`users/like/${currentVideo?._id}`);
@@ -78,8 +78,7 @@ const Video = () => {
     <Container>
       <Content>
         <VideWrapper>
-          <VideoFrame src={currentVideo?.video} />
-        </VideWrapper>
+          <VideoFrame  src={`http://localhost:8800/video/${currentVideo?.video}`} controls />        </VideWrapper>
         <Title>{currentVideo?.title}</Title>
         <Details>
           <Info>
@@ -126,13 +125,7 @@ const Video = () => {
         <Hr />
             <CommentsContainer videoId={currentVideo?._id}/>
       </Content>
-      <Recommendation>
-        {/* <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/> */}
-      </Recommendation>
+      <Recommendation tags={currentVideo?.tags} currentVideoId={currentVideo?._id}/>
     </Container>
   );
 };

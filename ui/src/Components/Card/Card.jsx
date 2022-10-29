@@ -26,7 +26,7 @@ const Card = ({ type, video }) => {
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <Container type={type}>
-        <Image type={type} src={video.thumbnail} />
+        <Image type={type} src={`http://localhost:8800/thumbnail/${video.thumbnail}`} />
         <Details type={type}>
           <ChannelImage
             type={type}

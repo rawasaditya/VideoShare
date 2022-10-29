@@ -6,7 +6,7 @@ export const darkTheme = {
     soft:"#373737"
   }
   export const lightTheme = {
-    bg:"#eee",
+    bg:"#fdfdfd",
     bgLighter:"white",
     text:"black",
     textSoft:"#606060",

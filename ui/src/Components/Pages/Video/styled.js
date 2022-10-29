@@ -7,9 +7,7 @@ const Container = styled.div`
 const Content = styled.div`
   flex: 5;
 `;
-const Recommendation = styled.div`
-  flex: 2;
-`;
+
 
 const VideWrapper = styled.div``;
 
@@ -96,7 +94,6 @@ font-size: 0.9rem;
 `;
 
 const VideoFrame = styled.video`
-max-width: 720px;
 width: 100%;
 object-fit: cover;
 `
@@ -104,7 +101,6 @@ object-fit: cover;
 export {
   Container,
   Content,
-  Recommendation,
   VideWrapper,
   Title,
   Details,
