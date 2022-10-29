@@ -2,9 +2,8 @@ import {useState,useEffect} from 'react'
 import Card from '../../Card/Card'
 import {Container} from './styled'
 import axios from 'axios'
-const Home = ({type}) => {
+const Home = ({type, setvideos, videos}) => {
 
-  const [videos, setvideos] = useState([]);
 
   useEffect(() => {
     const fetchVideos = async () =>{
@@ -17,7 +16,7 @@ const Home = ({type}) => {
   return (
     <Container>
       {
-        videos.length && videos.map(i=><Card key={i._id} video={i}/>)
+        videos.length ? videos.map(i=><Card key={i._id} video={i}/>) : <></>
       }        
     </Container>
   )

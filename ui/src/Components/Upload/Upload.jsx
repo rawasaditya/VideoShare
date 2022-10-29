@@ -40,7 +40,6 @@ const Upload = ({ setOpen }) => {
     formData.append("description",description);
     formData.append("thumbnail",files.thumbnail);
     formData.append("video",files.video);
-    console.log(files.video)
     formData.append("tags",tags);
     const res = await axios.post("video",formData);
     window.location.href=`/video/${res.data._id}`

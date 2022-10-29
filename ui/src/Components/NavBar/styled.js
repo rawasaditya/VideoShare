@@ -25,7 +25,7 @@ const SearchWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.bg};
+  border: 1px solid ${({ theme }) => theme.textSoft};
   border-radius: 0.2rem;
 `;
 const Input = styled.input`
@@ -33,13 +33,14 @@ const Input = styled.input`
   background-color: transparent;
   width: 100%;
   outline: none;
+  color: ${({ theme }) => theme.text};
 `;
 const UserContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.9rem;
   font-weight: 500;
-  border: 0px solid ${({ theme }) => theme.text};
+  border: 0px solid ${({ theme }) => theme.soft};
 
   & > svg {
     cursor: pointer;

@@ -71,10 +71,15 @@ const Menu = ({ setTheme, theme }) => {
           <Clock size={20} />
           History
         </Item>
+        <Link
+          to="/liked"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
         <Item>
           <ThumbsUp size={20} />
           Liked
         </Item>
+        </Link>
         <Hr />
         {currentUser ? (
           <></>

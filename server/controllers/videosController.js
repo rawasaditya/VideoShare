@@ -2,9 +2,6 @@ const createError = require("../error");
 const Users = require("../models/User");
 const Video = require("../models/Video");
 const { checkrequired } = require("../utils/validation.js");
-const fs = require("fs");
-const path = require("path");
-
 
 const addVideo = async (req, res, next) => {
 
@@ -12,7 +9,6 @@ const addVideo = async (req, res, next) => {
     const { title, description, tags } = req.body;
     let splitags = tags.split(",")
       const userId = req.user._id;
-      console.log(req.files)
       const video = req.files.video[0].filename;
       const thumbnail = req.files.thumbnail[0].filename;
 
@@ -167,6 +163,16 @@ const search = async (req, res, next) => {
   }
 };
 
+const liked = async (req,res,next)=>{
+  try {
+    const liked = req.user._id
+    const videos = await Video.find({ likes: { $in: liked } });
+    res.status(200).json(videos);
+  } catch (err) {
+    next(createError(500, err));
+  }
+}
+
 module.exports = {
   addVideo,
   updateVideo,
@@ -178,4 +184,5 @@ module.exports = {
   subscribed,
   getByTag,
   search,
+  liked
 };

@@ -9,11 +9,11 @@ const {
   subscribed,
   getByTag,
   search,
+  liked
 } = require("../controllers/videosController");
 const { authenticate } = require("../controllers/authenticationController");
 const express = require("express");
 const multer = require("multer");
-const fs = require("fs");
 const path = require("path");
 
 const storage = multer.diskStorage({
@@ -52,6 +52,7 @@ router.get("/find/:id", getVideo);
 router.put("/view/:id", authenticate, addview);
 router.get("/trends", trends);
 router.get("/random", random);
+router.get("/liked",authenticate, liked);
 router.get("/subscribed", authenticate, subscribed);
 router.get("/tags", getByTag);
 router.get("/search", search);

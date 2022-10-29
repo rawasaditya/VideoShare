@@ -65,20 +65,24 @@ const Video = () => {
   };
 
   const handelSubscription = async () => {
-    await axios.put(`http://localhost:8800/api/v1/users/sub/${channel._id}`);
+    await axios.put(`users/sub/${channel._id}`);
     dispatch(subscription(channel._id));
   };
 
   const handelunSubscription = async () => {
-    await axios.put(`http://localhost:8800/api/v1/users/unsub/${channel._id}`);
+    await axios.put(`users/unsub/${channel._id}`);
     dispatch(subscription(channel._id));
   };
+
+  const videoended = async () =>{
+    await axios.put(`video/view/${currentVideo?._id}`)
+  }
 
   return (
     <Container>
       <Content>
         <VideWrapper>
-          <VideoFrame  src={`http://localhost:8800/video/${currentVideo?.video}`} controls />        </VideWrapper>
+          <VideoFrame  src={`http://localhost:8800/video/${currentVideo?.video}`} controls onEnded={videoended}/>        </VideWrapper>
         <Title>{currentVideo?.title}</Title>
         <Details>
           <Info>
